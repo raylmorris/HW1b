@@ -1,5 +1,6 @@
 import random
 import time
+from math import sqrt
 
 def numberGame(rangeMax):
     answer = random.randint(1, rangeMax)
@@ -14,18 +15,14 @@ def numberGame(rangeMax):
     if r_bound == answer:
         return iter_count
     while guess!=answer:
-        #print(r_bound-l_bound)
         if r_bound - l_bound == 1:
             l_bound = r_bound
-        #print(l_bound, r_bound)
         if guess > answer:
             r_bound = guess
         else:
             l_bound = guess
         guess = mid(l_bound, r_bound)
         iter_count += 1
-        #print(l_bound, r_bound, guess)
-    #print(guess, answer, l_bound, r_bound, iter_count, sep=', ')
     return iter_count
 def task1(max):
     return sum([numberGame(int(max)) for x in range(int(1e4))])/1e4
@@ -39,4 +36,17 @@ def printQ1():
             ' Total guesses:',int(i[1]*1e4),' Avg:',i[1]
         )
 def timeEfficiency(funcName, *args):
-    start = time.time()
+    start = time.time_ns()
+    funcName(args)
+    end = time.time_ns()
+    return end - start / 1e9
+def isPrime(ii):
+    if ii < 2: return False
+    for pf in range(2, 1+int(sqrt(ii))):
+        if ii%pf == 0:
+            return False
+    return True
+def listPrimeNumbers(theMaxNum):
+    for i in range(int(theMaxNum+1)):
+        if isPrime(i): print(i)
+listPrimeNumbers(1e2)
