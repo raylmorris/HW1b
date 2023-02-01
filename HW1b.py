@@ -6,21 +6,34 @@ def numberGame(rangeMax):
 	l_bound = 1
 	r_bound = rangeMax
 	guess = mid(l_bound, r_bound)
-	iter_count = 1*(l_bound==answer) + 2*(r_bound==answer)
+	iter_count = 1
+	if l_bound == answer:
+		return iter_count
+	iter_count += 1
+	if r_bound == answer:
+		return iter_count
 	while guess!=answer:
+		#print(r_bound-l_bound)
 		if r_bound - l_bound == 1:
 			l_bound = r_bound
+		#print(l_bound, r_bound)
 		if guess > answer:
 			r_bound = guess
 		else:
 			l_bound = guess
 		guess = mid(l_bound, r_bound)
 		iter_count += 1
-	print(guess, answer, l_bound, r_bound, iter_count, sep=', ')
+		#print(l_bound, r_bound, guess)
+	#print(guess, answer, l_bound, r_bound, iter_count, sep=', ')
 	return iter_count
 def task1(max):
 	return sum([numberGame(int(max)) for x in range(int(1e4))])/1e4
 def outputQ1():
 	return (task1(1000), task1(1e6))
 if __name__ == "__main__":
-	print(outputQ1())
+	for i in enumerate(outputQ1()):
+		print(
+			i[0],
+			'. The random numbers between 1 .. 1K:',
+			' Total guesses:',int(i[1]*1e4),' Avg:',i[1]
+		)
