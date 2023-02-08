@@ -2,6 +2,7 @@ import random
 import time
 from math import sqrt
 import re
+import functools
 
 avg = lambda x: sum(x)/len(x)
 
@@ -119,11 +120,35 @@ def driverQ4():
     nn = int(input('See top "n" words by inputting an integer for n: '))
     for word in word_counts[:nn]:
         print(word[0]+' : '+str(word[1]))
+def timeEfficiencyDecorator(func):
+    @functools.wraps(func)
+    def wrapper(*args):
+        start = time.time_ns()
+        result = func(*args)
+        end = time.time_ns()
+        print(f'\tstart: {start/(1e9)}',
+            f'end: {end/(1e9)}',
+            f'time efficiency: {(end - start) / (1e9)}',
+            sep = '\n\t')
+        return result
+    return wrapper
 
+@timeEfficiencyDecorator
+def listPrimeNumbers2(theMaxNum):
+    return listPrimeNumbers(theMaxNum)
+    
+def driverQ5():
+    user_number = int(input('Enter a whole number for the list of prime numbers: '))
+    print(f'List of prime numbers of {user_number}','{')
+    return_value = listPrimeNumbers2(user_number)
+    print(
+        f'\tresult {return_value[:5]+["..."]+return_value[-5:]}'.replace("'...'",'... '),
+        '\n}'
+    )
     
 if __name__ == "__main__":
     driverQ1()
     driverQ2()
     driverQ3()
     driverQ4()
-    #driverQ5()
+    driverQ5()
