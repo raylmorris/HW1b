@@ -1,6 +1,7 @@
 import random
 import time
 from math import sqrt
+import re
 
 avg = lambda x: sum(x)/len(x)
 
@@ -109,18 +110,20 @@ def driverQ3():
         )
 def driverQ4():
     with open(input('Enter a file name: '), "r") as f:
-        file_out = sorted(f.read().lower().split())
+        file_out = sorted(re.split(r'[^a-z]+',f.read().lower()))
     word_counts = sorted(
         {x: file_out.count(x) for x in set(file_out)}.items(),
         key=lambda kvp: kvp[1],
         reverse = True
     )
     nn = int(input('See top "n" words by inputting an integer for n: '))
-    print(word_counts[:nn])
-    
+    for word in word_counts[:nn]:
+        print(word[0]+' : '+str(word[1]))
 
-#driverQ1()
-#driverQ2()
-#driverQ3()
-driverQ4()
-#driverQ5()
+    
+if __name__ == "__main__":
+    driverQ1()
+    driverQ2()
+    driverQ3()
+    driverQ4()
+    #driverQ5()
